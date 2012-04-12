@@ -2,6 +2,9 @@ import sys
 import glob
 import re
 
+#loads the solutions of a system of equations
+#solutions are complex numbers
+
 class SolnLoad:
     def __init__ (self, prefix, name, view):
         pattern = prefix + name + '.*'
@@ -16,5 +19,5 @@ class SolnLoad:
                     rec = re.search('^([^\(:]+):\s*([0-9\.\-\+eE]+)', line)
                     if rec:
                         dict[rec.group(1)] = rec.group(2)
-                view.append (dict)
+                view.addSoln(dict)
 

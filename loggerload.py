@@ -2,6 +2,9 @@ import sys
 import glob
 import re
 
+#current state:
+#
+
 class LoggerLoad:
 
     def logger_on_activate (self, i, name):
