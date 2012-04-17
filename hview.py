@@ -12,13 +12,15 @@ from getopt     import *
 
 class MainFrame (gtk.Window):
 
+    pages = []
+
     def __init__ (self, path, width, height):
         gtk.Window.__init__ (self)
 
         solnview = SolnView()
         failview = SolnView()
 
-        SolnLoad (path, 'soln',    solnview)
+        SolnLoad (path, 'soln',   solnview)
         SolnLoad (path, 'failed', failview)
 
         self.loggerview = LoggerView()
@@ -58,7 +60,7 @@ if len(args) == 0:
 path     = args[0]
 
 for op, arg in optlist:
-     if op    == "-w":
+     if op   == "-w":
         width  = int(arg)
      elif op == "-h":
         height = int(arg)
