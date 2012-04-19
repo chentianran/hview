@@ -13,10 +13,13 @@ import re
 #   * filename - name of log file
 #################################
 class Entry:
-    def __init__(self, filename):
+    def __init__ (self, filename):
         self.info = dict()
         self.data  = []
         self.filename = filename
+
+    def __str__ (self):
+        return self.filename
 
     # Load the data from a file
     def load (self):

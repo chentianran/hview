@@ -1,17 +1,18 @@
 import os
+import entry
 from log import Log
 from soln import Soln
 
-class Entry:
-    def __init__(self):
-        self.soln = None
-        self.logs = {} 
-
-    def __str__(self):
-        retStr = self.soln.filename+ "\n\t"
-        for k in self.logs.keys():
-            retStr += k + " " + self.logs[k].filename + "\n\t"
-        return retStr
+#class Entry:
+#    def __init__(self):
+#        self.soln = None
+#        self.logs = {} 
+#
+#    def __str__(self):
+#        retStr = self.soln.filename+ "\n\t"
+#        for k in self.logs.keys():
+#            retStr += k + " " + self.logs[k].filename + "\n\t"
+#        return retStr
 
 
 class SystemDir:
@@ -33,8 +34,9 @@ class SystemDir:
             if fnameParts[0].startswith("log"): # log file
                 logType = fnameParts[1]
                 if not self.entries.has_key(entryNum): # entry not initialized
-                    self.entries[entryNum] = Entry()
-                self.entries[entryNum].logs[logType] = Log(filePath)   
+                    self.entries[entryNum] = Entry()    # TODO self.entries[entrynum] should be a list containing a new entry object
+                self.entries[entryNum].logs[logType] = Log(filePath)   # TODO logs will be entries (not a special case)
+                # TODO also, build the types{} dictionary
 
             else:
                 if not self.entries.has_key(entryNum):
