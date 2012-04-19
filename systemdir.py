@@ -1,24 +1,20 @@
 import os
-import entry
-from log import Log
-from soln import Soln
+from entry import Entry
 
-#class Entry:
-#    def __init__(self):
-#        self.soln = None
-#        self.logs = {} 
+
+##################################
+# SystemDir
 #
-#    def __str__(self):
-#        retStr = self.soln.filename+ "\n\t"
-#        for k in self.logs.keys():
-#            retStr += k + " " + self.logs[k].filename + "\n\t"
-#        return retStr
-
-
+# holds information about a
+# directory of files pertaining
+# to a particular polynomial
+# system
+##################################
 class SystemDir:
     def __init__(self, systemDir):
         self.systemDir = systemDir
-        self.entries = {}
+        self.entries   = {}
+        self.types     = {}
 
         # read filenames and layout data 
         for fname in os.listdir(systemDir):
@@ -29,20 +25,19 @@ class SystemDir:
 
             filePath = systemDir + '/' + fname
             fnameParts = fname.split('.')
+            entryType = fnameParts[0]
             entryNum = fnameParts[-1]
-            
-            if fnameParts[0].startswith("log"): # log file
-                logType = fnameParts[1]
-                if not self.entries.has_key(entryNum): # entry not initialized
-                    self.entries[entryNum] = Entry()    # TODO self.entries[entrynum] should be a list containing a new entry object
-                self.entries[entryNum].logs[logType] = Log(filePath)   # TODO logs will be entries (not a special case)
-                # TODO also, build the types{} dictionary
 
+            if not self.entries.has_key (entryNum):                 # record info 
+                self.entries[entryNum] = [Entry(filePath)]
             else:
-                if not self.entries.has_key(entryNum):
-                    self.entries[entryNum] = Entry()
-                self.entries[entryNum].soln = Soln(filePath)
+                self.entries[entryNum].append (Entry(filePath))
 
+            if not self.types.has_key (entryType):
+                self.types[entryType] = set ([entryNum])
+            else:
+                self.types[entryType].add (entryNum)
+            
 
     def validName(self, fname):
         valid = True
@@ -58,6 +53,6 @@ class SystemDir:
 
 
 s = SystemDir("hps")
-for k in s.entries.keys():
-    print k, s.entries[k]
+for k in s.types.keys():
+    print k, s.types[k]
 
