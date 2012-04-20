@@ -14,6 +14,7 @@ class SolnView (gtk.ScrolledWindow):
         
         self.set_shadow_type (gtk.SHADOW_IN)
 
+
         self.store = gtk.ListStore ('gboolean', int, 'gdouble', 'gdouble', 'gdouble', 'gdouble')
         self.names = ['Id', 'Norm', 'Cond.', 'Tangent', 'T']
         self.view = gtk.TreeView (self.store)
@@ -35,6 +36,7 @@ class SolnView (gtk.ScrolledWindow):
         self.view.connect ('row-activated', self.on_activate)
 
         self.active_iter = None
+
 
         self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         self.set_border_width (4)

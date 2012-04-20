@@ -10,6 +10,8 @@ from loggerplot import *
 from loggerload import *
 from getopt     import *
 
+from page import *
+
 class MainFrame (gtk.Window):
 
     pages = []
@@ -17,36 +19,19 @@ class MainFrame (gtk.Window):
     def __init__ (self, path, width, height):
         gtk.Window.__init__ (self)
 
-        solnview = SolnView()
-        failview = SolnView()
-
-        SolnLoad (path, 'soln',   solnview)
-        SolnLoad (path, 'failed', failview)
-
-        self.loggerview = LoggerView()
-        self.loggerplot = LoggerPlot()
-        self.loggerload = LoggerLoad (path, self.loggerview, self.loggerplot)
-
-        solnview.activate_callback = self.loggerload.soln_on_activate
-        failview.activate_callback = self.loggerload.soln_on_activate
-
-        self.loggerplot.set_size_request (width/2, height/2)
+        self.path = path
+        self.width = width
+        self.height = height
+        
+        solnview = Page(self)
+        failview = Page(self)
 
         notebook = gtk.Notebook()
         #notebook.append_page (self.all_box, gtk.Label ('Summary'))
         notebook.append_page (solnview, gtk.Label ('Solutions'))
         notebook.append_page (failview, gtk.Label ('Failed Paths'))
 
-        hbox = gtk.HBox (False, 3)
-        hbox.pack_start (self.loggerview, True, True)
-        hbox.pack_start (self.loggerplot, True, True)
-
-        vpane = gtk.VPaned()
-        vpane.pack1 (notebook, True, True)
-        vpane.pack2 (hbox, False, True)
-
-
-        self.add (vpane)
+        self.add (notebook)
         self.set_default_size (width, height)
 
 width    = 800
